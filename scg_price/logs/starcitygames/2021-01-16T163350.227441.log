@@ -1,0 +1,42 @@
+2021-01-16 16:33:51 [scrapy] DEBUG: Crawled (200) <GET https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Curiosity> (referer: None)
+2021-01-16 16:33:52 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Curiosity>
+{'8th Edition': [{'Near Mint': '$0.49'}]}
+2021-01-16 16:33:52 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Curiosity>
+{'8th Edition (Foil)': [{'Near Mint': '$6.99'}]}
+2021-01-16 16:33:52 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Curiosity>
+{'Exodus': [{'Near Mint': '$0.49'}, {'Played': '$0.25'}]}
+2021-01-16 16:33:52 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Curiosity>
+{'Innistrad': [{'Near Mint': '$0.29'}]}
+2021-01-16 16:33:52 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Curiosity>
+{'Innistrad (Foil)': [{'Near Mint': '$0.99'}]}
+2021-01-16 16:33:52 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Curiosity>
+{'Jumpstart': [{'Near Mint': '$0.25'}]}
+2021-01-16 16:33:52 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Curiosity>
+{'Masters 25': [{'Near Mint': '$0.25'}]}
+2021-01-16 16:33:52 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Curiosity>
+{'Masters 25 (Foil)': [{'Near Mint': '$0.99'}]}
+2021-01-16 16:33:52 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Curiosity>
+{'Mystery Booster': [{'Near Mint': '$0.25'}]}
+2021-01-16 16:33:52 [scrapy] INFO: Closing spider (finished)
+2021-01-16 16:33:52 [scrapy] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 268,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 18809,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'elapsed_time_seconds': 1.788997,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2021, 1, 16, 13, 33, 52, 33006),
+ 'item_scraped_count': 9,
+ 'log_count/DEBUG': 10,
+ 'log_count/INFO': 7,
+ 'memusage/max': 61259776,
+ 'memusage/startup': 61259776,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2021, 1, 16, 13, 33, 50, 244009)}
+2021-01-16 16:33:52 [scrapy] INFO: Spider closed (finished)

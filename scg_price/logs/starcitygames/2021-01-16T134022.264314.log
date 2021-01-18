@@ -1,0 +1,36 @@
+2021-01-16 13:40:23 [scrapy] DEBUG: Crawled (200) <GET https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Silence> (referer: None)
+2021-01-16 13:40:24 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Silence>
+{'Magic 2010 Core Set': [{'Near Mint -': '$5.99'}, {'Heavily Played -': '$2.99'}]}
+2021-01-16 13:40:24 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Silence>
+{'Magic 2010 Core Set (Foil)': [{'Near Mint -': '$11.99'}]}
+2021-01-16 13:40:24 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Silence>
+{'Magic 2011 Core Set': [{'Near Mint -': '$5.99'}, {'Heavily Played -': '$2.99'}]}
+2021-01-16 13:40:24 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Silence>
+{'Magic 2011 Core Set (Foil)': [{'Near Mint -': '$11.99'}]}
+2021-01-16 13:40:24 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Silence>
+{'Magic 2014 Core Set': [{'Near Mint -': '$4.99'}, {'Played -': '$4.05'}, {'Heavily Played -': '$2.49'}]}
+2021-01-16 13:40:24 [scrapy] DEBUG: Scraped from <200 https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Silence>
+{'Magic 2014 Core Set (Foil)': [{'Near Mint -': '$9.99'}, {'Near Mint -': '$14.99'}, {'Near Mint -': '$19.99'}, {'Near Mint -': '$29.99'}]}
+2021-01-16 13:40:24 [scrapy] INFO: Closing spider (finished)
+2021-01-16 13:40:24 [scrapy] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 266,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 23923,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'elapsed_time_seconds': 1.83197,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2021, 1, 16, 10, 40, 24, 111890),
+ 'item_scraped_count': 6,
+ 'log_count/DEBUG': 7,
+ 'log_count/INFO': 7,
+ 'memusage/max': 58441728,
+ 'memusage/startup': 58441728,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2021, 1, 16, 10, 40, 22, 279920)}
+2021-01-16 13:40:24 [scrapy] INFO: Spider closed (finished)

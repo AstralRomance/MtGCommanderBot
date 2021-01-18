@@ -1,0 +1,23 @@
+2021-01-16 13:35:47 [scrapy] DEBUG: Crawled (200) <GET https://starcitygames.hawksearch.com/sites/starcitygames/?card_name=Silence> (referer: None)
+2021-01-16 13:35:47 [scrapy] INFO: Closing spider (finished)
+2021-01-16 13:35:47 [scrapy] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 266,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 23920,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'elapsed_time_seconds': 1.86444,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2021, 1, 16, 10, 35, 47, 520017),
+ 'log_count/DEBUG': 1,
+ 'log_count/INFO': 7,
+ 'memusage/max': 53985280,
+ 'memusage/startup': 53985280,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2021, 1, 16, 10, 35, 45, 655577)}
+2021-01-16 13:35:47 [scrapy] INFO: Spider closed (finished)
