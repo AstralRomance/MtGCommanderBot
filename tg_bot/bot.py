@@ -8,7 +8,7 @@ start_urls = []
 SCRYFALL_API_URL = 'https://api.scryfall.com'
 STARCITY_SEARCH = r'https://starcitygames.hawksearch.com/sites/starcitygames/?card_name='
 STARCITY_LINK = r'https://starcitygames.com/search/?search_query='
-bot = Bot('834832610:AAGxJPHr9qI8eDPDaxg8hlio03LDeQBh138')
+bot = Bot('834832610:AAG_zGFBc-FoBdLG2u5LpEOyiOCWlQ3eun4')
 dp = Dispatcher(bot)
 
 def card_scg_link_form(card: str) -> str:
@@ -16,7 +16,7 @@ def card_scg_link_form(card: str) -> str:
     return ''.join((STARCITY_LINK,card))
 
 def card_scg_search_form(card: str) -> str:
-    card = card.replace(' ', '%20')
+    card = card.replace(' ', '%20').replace(',',r'%25c%25')
     return ''.join((STARCITY_SEARCH,card))
 
 def form_output(card_list: list) -> str:
@@ -52,7 +52,6 @@ async def scryfall_find_card(message: types.Message):
                     }
     card_price = requests.post('http://localhost:9080/crawl.json', data=json.dumps(price_parsing))
     prices = card_price.json()['items']
-    print(prices)
     await message.reply_photo(response_json['image_uris']['normal'], caption=f'<a href="{card_link}">{card_name}</a>\n{form_output(prices)}'
                             , parse_mode='HTML')
 

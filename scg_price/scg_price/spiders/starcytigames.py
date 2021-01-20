@@ -8,18 +8,22 @@ class StarcytigamesSpider(scrapy.Spider):
 
     def parse(self, response):
         print('crawling')
-        prices_item = ScgPriceItem()
         selector = Selector(text=response.text)
         prices = []
         for card_item in selector.xpath('//div[@class="hawk-results-item"]'):
             card_set = card_item.xpath('.//p[@class="hawk-results-item__category"]//a/text()').get()
+            print(card_set)
             card_info = []
             for card_box in card_item.xpath('.//div[@class="hawk-results-item__options-table-row"]'):
                 condition = card_box.xpath('.//div[@class="hawk-results-item__options-table-cell hawk-results-item__options-table-cell--name childCondition"]/text()').get().strip()[:-2]
                 if condition != '':
-                    price = card_box.xpath('.//div[@class="hawk-results-item__options-table-cell hawk-results-item__options-table-cell--price childAttributes"]/text()').get().strip()
-                    if price != '':
-                        card_info.append({condition:price})
+                    try:
+                        price = card_box.xpath('.//div[@class="hawk-results-item__options-table-cell hawk-results-item__options-table-cell--price childAttributes"]/text()').get().strip()
+                        if price != '':
+                            card_info.append({condition:price})
+                    except AttributeError:
+                        continue
             prices.append({card_set:card_info})
-        print(prices)
         return prices
+
+#  <div class="hawk-results-item__options-table-cell hawk-results-item__options-table-cell--price childAttributes"><div class="hawk-price-wrapper"><span class="hawkSalePrice" id="salePrice-1684533">$0.79</span><span class="hawk-old-price" id="price-1684533">$0.99</span></div></div>
