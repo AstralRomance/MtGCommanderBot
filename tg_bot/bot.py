@@ -51,6 +51,7 @@ async def scryfall_find_card(message: types.Message):
                         'spider_name':'starcitygames'
                     }
     card_price = requests.post('http://localhost:9080/crawl.json', data=json.dumps(price_parsing))
+    print(card_price.json())
     prices = card_price.json()['items']
     await message.reply_photo(response_json['image_uris']['normal'], caption=f'<a href="{card_link}">{card_name}</a>\n{form_output(prices)}'
                             , parse_mode='HTML')

@@ -12,7 +12,6 @@ class StarcytigamesSpider(scrapy.Spider):
         prices = []
         for card_item in selector.xpath('//div[@class="hawk-results-item"]'):
             card_set = card_item.xpath('.//p[@class="hawk-results-item__category"]//a/text()').get()
-            print(card_set)
             card_info = []
             for card_box in card_item.xpath('.//div[@class="hawk-results-item__options-table-row"]'):
                 condition = card_box.xpath('.//div[@class="hawk-results-item__options-table-cell hawk-results-item__options-table-cell--name childCondition"]/text()').get().strip()[:-2]
@@ -25,5 +24,3 @@ class StarcytigamesSpider(scrapy.Spider):
                         continue
             prices.append({card_set:card_info})
         return prices
-
-#  <div class="hawk-results-item__options-table-cell hawk-results-item__options-table-cell--price childAttributes"><div class="hawk-price-wrapper"><span class="hawkSalePrice" id="salePrice-1684533">$0.79</span><span class="hawk-old-price" id="price-1684533">$0.99</span></div></div>

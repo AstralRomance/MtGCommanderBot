@@ -7,6 +7,7 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import logging
+import os
 
 BOT_NAME = 'scg_price'
 
@@ -20,8 +21,6 @@ NEWSPIDER_MODULE = 'scg_price.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
-logging.getLogger('scrapy').setLevel(logging.WARNING)
-fh = logging.FileHandler(delay=True)
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
