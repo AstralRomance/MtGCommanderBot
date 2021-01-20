@@ -8,7 +8,7 @@ start_urls = []
 SCRYFALL_API_URL = 'https://api.scryfall.com'
 STARCITY_SEARCH = r'https://starcitygames.hawksearch.com/sites/starcitygames/?card_name='
 STARCITY_LINK = r'https://starcitygames.com/search/?search_query='
-bot = Bot('834832610:AAG_zGFBc-FoBdLG2u5LpEOyiOCWlQ3eun4')
+bot = Bot(os.environ.get('TG_API_KEY'))
 dp = Dispatcher(bot)
 
 def card_scg_link_form(card: str) -> str:
