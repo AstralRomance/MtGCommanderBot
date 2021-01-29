@@ -52,7 +52,10 @@ def get_card_from_scryfall(card_name):
     if card_request.status_code == 404:
         return {'name':0}
     card_json = card_request.json()
-    return {'name':card_json['name'], 'image':card_json['image_uris']['small']}
+    if 'image_uris' in cards_json.keys():
+        return {'name':card_json['name'], 'image':card_json['image_uris']['normal']}
+    else:
+        return {'name':card_json['name']}
 
 def make_parser_header(card_name):
     price_parsing = {
@@ -78,10 +81,13 @@ async def scryfall_find_card(message: types.Message):
         card_link = card_scg_link_form(card_json['name'])
         response_form = '\n'.join(prepare_output(prepare_data(prices)))
         try:
-            sender = await bot.send_photo(message.chat.id,
-                                photo=card_json['image'],
-                                caption=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}',
-                                parse_mode='HTML')
+            if card_json['image']:
+                sender = await bot.send_photo(message.chat.id,
+                                    photo=card_json['image'],
+                                    caption=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}',
+                                    parse_mode='HTML')
+            else:
+                sender = await bot.send_message(message.chat.id,text=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}',parse_mode='HTML')
         except BadRequest:
             sender = await bot.send_message(message.chat.id, text=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}', parse_mode='HTML')
         return sender
