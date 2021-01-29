@@ -52,7 +52,7 @@ def get_card_from_scryfall(card_name):
     if card_request.status_code == 404:
         return {'name':0}
     card_json = card_request.json()
-    if 'image_uris' in cards_json.keys():
+    if 'image_uris' in card_json.keys():
         return {'name':card_json['name'], 'image':card_json['image_uris']['normal']}
     else:
         return {'name':card_json['name'], 'image':None}
