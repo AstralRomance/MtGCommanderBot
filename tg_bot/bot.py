@@ -3,14 +3,12 @@ import json
 from collections import defaultdict
 import requests
 from aiogram import Bot, Dispatcher, executor, types
-#from aiogram.methods import SendMessage, SendPhoto
-
-start_urls = []
+from aiogram.utils.exceptions import BadRequest
 
 SCRYFALL_API_URL = 'https://api.scryfall.com'
 STARCITY_SEARCH = r'https://starcitygames.hawksearch.com/sites/starcitygames/?card_name='
 STARCITY_LINK = r'https://starcitygames.com/search/?search_query='
-bot = Bot('834832610:AAEMir4IRiwC_G8QRDs6RGcNfgxOGJBcxX4')
+bot = Bot(os.environ.get('TG_API_KEY'))
 dp = Dispatcher(bot)
 
 def prepare_data(response_cards):
@@ -54,7 +52,7 @@ def get_card_from_scryfall(card_name):
     if card_request.status_code == 404:
         return {'name':0}
     card_json = card_request.json()
-    return {'name':card_json['name'], 'image':card_json['image_uris']['normal']}
+    return {'name':card_json['name'], 'image':card_json['image_uris']['small']}
 
 def make_parser_header(card_name):
     price_parsing = {
@@ -79,10 +77,13 @@ async def scryfall_find_card(message: types.Message):
         
         card_link = card_scg_link_form(card_json['name'])
         response_form = '\n'.join(prepare_output(prepare_data(prices)))
-        await bot.send_photo(message.chat.id,
+        try:
+            return await bot.send_photo(message.chat.id,
                                 photo=card_json['image'],
                                 caption=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}',
                                 parse_mode='HTML')
+        except BadRequest:
+            return await bot.send_message(message.chat.id, text=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}')
 
 @dp.message_handler(commands=['start'])
 async def start_command(message: types.Message):
