@@ -1,15 +1,44 @@
 import os
 import json
+from collections import defaultdict
 import requests
 from aiogram import Bot, Dispatcher, executor, types
+#from aiogram.methods import SendMessage, SendPhoto
 
 start_urls = []
 
 SCRYFALL_API_URL = 'https://api.scryfall.com'
 STARCITY_SEARCH = r'https://starcitygames.hawksearch.com/sites/starcitygames/?card_name='
 STARCITY_LINK = r'https://starcitygames.com/search/?search_query='
-bot = Bot(os.environ.get('TG_API_KEY'))
+bot = Bot('834832610:AAEMir4IRiwC_G8QRDs6RGcNfgxOGJBcxX4')
 dp = Dispatcher(bot)
+
+def prepare_data(response_cards):
+    unacked_dict_list = {k:v for d in response_cards for k, v in d.items()}
+    formatted = defaultdict(lambda: {})
+    for name, cards in unacked_dict_list.items():
+        for suffix in ('Foil',):
+            if name.endswith(suffix):
+                name = name.replace(suffix, '')
+                suffix = 'Foil' if suffix == ' (Foil)' else suffix.strip(' -')
+            else:
+                suffix = 'C'
+            formatted[name][suffix] = cards
+    return formatted
+
+def prepare_cards(cards):
+    res = [f'\t\t\t\t{state}: {price}' for card in cards for state, price in card.items()]
+    return res
+
+def prepare_output(prepared_cards):
+    lines = []
+    for set_name, variants in prepared_cards.items():
+        lines.append(f'<b>{set_name}</b>')
+        for variant, cards in sorted(variants.items()):
+            if variant != 'C':
+                lines.append(f'{variant}: ')
+            lines += prepare_cards(cards)
+    return lines
 
 def card_scg_link_form(card: str) -> str:
     card = card.replace(' ', '%20')
@@ -19,43 +48,45 @@ def card_scg_search_form(card: str) -> str:
     card = card.replace(' ', '%20').replace(',',r'%25c%25')
     return ''.join((STARCITY_SEARCH,card))
 
-def form_output(card_list: list) -> str:
-    outp = ''
-    for card_set in card_list:
-        for keys in card_set.keys():
-            outp += f'{keys}: '
-            for cond in card_set[keys]:
-                outp += f'{str(*[i for i in cond.items()])}'
-        outp += '\n'
-    return outp
-
-@dp.message_handler()
-async def scryfall_find_card(message: types.Message):
-    card_request_string = ''.join((SCRYFALL_API_URL,f'/cards/named?fuzzy={message.text.replace(" ","+")}'))
+def get_card_from_scryfall(card_name):
+    card_request_string = ''.join((SCRYFALL_API_URL,f'/cards/named?fuzzy={card_name.replace(" ","+")}'))
     card_request = requests.get(card_request_string)
-    if (card_request.status_code//100) == 4:
-        return await message.reply('Неверное имя карты или проблемы на scryfall')
-    
-    # if response is not 4**
-    response_json = card_request.json()
-    card_link = card_scg_link_form(response_json['name'])
-    card_search = card_scg_search_form(response_json['name'])
+    if card_request.status_code == 404:
+        return {'name':0}
+    card_json = card_request.json()
+    return {'name':card_json['name'], 'image':card_json['image_uris']['normal']}
 
-    card_name = response_json['name']
+def make_parser_header(card_name):
     price_parsing = {
                         'request':
                         {
-                            'url':card_search,
+                            'url':card_name,
                             'dont_filter':True
                         },
-                        'spider_name':'starcitygames'
+                       'spider_name':'starcitygames'
                     }
-    card_price = requests.post('http://localhost:9080/crawl.json', data=json.dumps(price_parsing))
-    print(card_price.json())
-    prices = card_price.json()['items']
-    await message.reply_photo(response_json['image_uris']['normal'], caption=f'<a href="{card_link}">{card_name}</a>\n{form_output(prices)}'
-                            , parse_mode='HTML')
+    return price_parsing
 
+@dp.message_handler()
+async def scryfall_find_card(message: types.Message):
+    cards_list = message.text.split('\n')
+    for card in cards_list:
+        card_json = get_card_from_scryfall(card)
+        if card_json['name'] == 0:
+            return await bot.send_message(message.chat.id, 'Ivalid input or Scryfall troubles')
+        card_price = requests.post('http://localhost:9080/crawl.json', data=json.dumps(make_parser_header(card_scg_search_form(card_json['name']))))
+        prices = card_price.json()['items']
+        
+        card_link = card_scg_link_form(card_json['name'])
+        response_form = '\n'.join(prepare_output(prepare_data(prices)))
+        await bot.send_photo(message.chat.id,
+                                photo=card_json['image'],
+                                caption=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}',
+                                parse_mode='HTML')
+
+@dp.message_handler(commands=['start'])
+async def start_command(message: types.Message):
+    await bot.send_message(message.chat.id, message='Start bot')
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
