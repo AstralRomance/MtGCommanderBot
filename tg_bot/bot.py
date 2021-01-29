@@ -3,7 +3,7 @@ import json
 from collections import defaultdict
 import requests
 from aiogram import Bot, Dispatcher, executor, types
-
+from aiogram.utils.exceptions import BadRequest
 
 SCRYFALL_API_URL = 'https://api.scryfall.com'
 STARCITY_SEARCH = r'https://starcitygames.hawksearch.com/sites/starcitygames/?card_name='
@@ -77,13 +77,14 @@ async def scryfall_find_card(message: types.Message):
         
         card_link = card_scg_link_form(card_json['name'])
         response_form = '\n'.join(prepare_output(prepare_data(prices)))
-        if len(response_form) > 1023:
-            return await bot.send_photo(message.chat.id,
+        try:
+            sender = await bot.send_photo(message.chat.id,
                                 photo=card_json['image'],
                                 caption=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}',
                                 parse_mode='HTML')
-        else:
-            return await bot.send_message(message.chat.id, text=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}', parse_mode='HTML')
+        except BadRequest:
+            sender = await bot.send_message(message.chat.id, text=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}', parse_mode='HTML')
+        return sender
 
 @dp.message_handler(commands=['start'])
 async def start_command(message: types.Message):
