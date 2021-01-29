@@ -3,14 +3,13 @@ import json
 from collections import defaultdict
 import requests
 from aiogram import Bot, Dispatcher, executor, types
-#from aiogram.methods import SendMessage, SendPhoto
 
 start_urls = []
 
 SCRYFALL_API_URL = 'https://api.scryfall.com'
 STARCITY_SEARCH = r'https://starcitygames.hawksearch.com/sites/starcitygames/?card_name='
 STARCITY_LINK = r'https://starcitygames.com/search/?search_query='
-bot = Bot('834832610:AAEMir4IRiwC_G8QRDs6RGcNfgxOGJBcxX4')
+bot = Bot(os.environ.get('TG_API_KEY'))
 dp = Dispatcher(bot)
 
 def prepare_data(response_cards):
