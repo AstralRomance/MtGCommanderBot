@@ -55,7 +55,7 @@ def get_card_from_scryfall(card_name):
     if 'image_uris' in cards_json.keys():
         return {'name':card_json['name'], 'image':card_json['image_uris']['normal']}
     else:
-        return {'name':card_json['name']}
+        return {'name':card_json['name'], 'image':None}
 
 def make_parser_header(card_name):
     price_parsing = {
@@ -81,7 +81,7 @@ async def scryfall_find_card(message: types.Message):
         card_link = card_scg_link_form(card_json['name'])
         response_form = '\n'.join(prepare_output(prepare_data(prices)))
         try:
-            if card_json['image']:
+            if card_json['image'] is not None:
                 sender = await bot.send_photo(message.chat.id,
                                     photo=card_json['image'],
                                     caption=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}',
