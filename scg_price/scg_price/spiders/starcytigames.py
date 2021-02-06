@@ -20,7 +20,15 @@ class StarcytigamesSpider(scrapy.Spider):
                         price = card_box.xpath('.//div[@class="hawk-results-item__options-table-cell hawk-results-item__options-table-cell--price childAttributes"]/text()').get().strip()
                         if price != '':
                             card_info.append({condition:price})
-                    except AttributeError:
-                        continue
+                    except AttributeError as first_exception:
+                        try:
+                            for card_price in card_box.xpath('.//div[@class="hawk-results-item__options-table-cell hawk-results-item__options-table-cell--price childAttributes"]//div[@class="hawk-price-wrapper"]'):
+                                price = card_price.xpath('.//span[@class="hawk-old-price"]/text()').get().strip()
+                                print()
+                                if price != '':
+                                    card_info.append({condition:price})
+                        except AttributeError as second_ecxeption:
+                            continue
             prices.append({card_set:card_info})
+        print(prices)
         return prices

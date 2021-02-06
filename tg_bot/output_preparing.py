@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 def prepare_data(response_cards):
     unacked_dict_list = {k:v for d in response_cards for k, v in d.items()}
     formatted = defaultdict(lambda: {})

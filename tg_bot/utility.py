@@ -1,3 +1,6 @@
+import requests
+from URL_CONSTANTS import STARCITY_LINK, STARCITY_SEARCH, SCRYFALL_API_URL
+
 def card_scg_link_form(card: str) -> str:
     card = card.replace(' ', '%20')
     return ''.join((STARCITY_LINK,card))

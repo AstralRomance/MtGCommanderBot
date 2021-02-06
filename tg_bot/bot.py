@@ -1,16 +1,13 @@
 import os
 import json
-from collections import defaultdict
 import requests
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.utils.exceptions import BadRequest
 from utility import card_scg_link_form, card_scg_search_form, get_card_from_scryfall
 from output_preparing import prepare_data, prepare_cards, prepare_output, make_parser_header
+from URL_CONSTANTS import PARSER_URL
 
 
-SCRYFALL_API_URL = 'https://api.scryfall.com'
-STARCITY_SEARCH = r'https://starcitygames.hawksearch.com/sites/starcitygames/?card_name='
-STARCITY_LINK = r'https://starcitygames.com/search/?search_query='
 bot = Bot(os.environ.get('TG_API_KEY'))
 dp = Dispatcher(bot)
 
@@ -21,7 +18,7 @@ async def scryfall_find_card(message: types.Message):
         card_json = get_card_from_scryfall(card)
         if card_json['name'] == 0:
             return await bot.send_message(message.chat.id, 'Ivalid input or Scryfall troubles')
-        card_price = requests.post('http://localhost:9080/crawl.json', data=json.dumps(make_parser_header(card_scg_search_form(card_json['name']))))
+        card_price = requests.post(PARSER_URL, data=json.dumps(make_parser_header(card_scg_search_form(card_json['name']))))
         prices = card_price.json()['items']
         card_link = card_scg_link_form(card_json['name'])
         response_form = '\n'.join(prepare_output(prepare_data(prices)))
