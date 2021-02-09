@@ -11,6 +11,10 @@ from URL_CONSTANTS import PARSER_URL
 bot = Bot(os.environ.get('TG_API_KEY'))
 dp = Dispatcher(bot)
 
+@dp.message_handler(commands=['start'])
+async def start_command(message: types.Message):
+    await bot.send_message(message.chat.id, message='Start bot')
+
 @dp.message_handler()
 async def scryfall_find_card(message: types.Message):
     cards_list = message.text.split('\n')
@@ -24,20 +28,14 @@ async def scryfall_find_card(message: types.Message):
         response_form = '\n'.join(prepare_output(prepare_data(prices)))
         try:
             if card_json['image'] is not None:
-                sender = await bot.send_photo(message.chat.id,
+                await bot.send_photo(message.chat.id,
                                     photo=card_json['image'],
                                     caption=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}',
                                     parse_mode='HTML')
             else:
-                sender = await bot.send_message(message.chat.id,text=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}',parse_mode='HTML')
+                await bot.send_message(message.chat.id,text=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}',parse_mode='HTML')
         except BadRequest:
-            sender = await bot.send_message(message.chat.id, text=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}', parse_mode='HTML')
-        return sender
-
-@dp.message_handler(commands=['start'])
-async def start_command(message: types.Message):
-    await bot.send_message(message.chat.id, message='Start bot')
+            await bot.send_message(message.chat.id, text=f'<a href="{card_link}">{card_json["name"]}</a>\n{response_form}', parse_mode='HTML')
 
 if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
-    
+    executor.start_polling(dp, skip_updates=True) 
