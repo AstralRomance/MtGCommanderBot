@@ -1,13 +1,27 @@
-from sqlalchemy import Table, Column, Integer, String, ForeignKey, MetaData
-metadata = MetaData()
-users_table = Table(
-    'users', metadata,
-    Column('id', Integer, primary_key=True),
-    Column('tg_id', String),
-    Column('tg_username', String)
-    )
+from sqlalchemy import Table, Column, Integer, String, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
-wishlist_table = Table(
-    'wishlist_tablr', metadata,
-    Column()
-)
+Base = declarative_base()
+
+class User(Base):
+    __tablename__ = 'users'
+    tg_id = Column(Integer, primary_key=True)
+
+class Wishlist(Base):
+    __tablename__ = 'wishlists'
+    id = Column(Integer, primary_key=True)
+    card_eng_name = Column(String)
+    card_rus_name = Column(String)
+    card_price = Column(String)
+    tg_id = Column(Integer, ForeignKey('users.tg_id'))
+    user = relationship('User', back_populates='wishlist')
+
+class Tradelist(Base):
+    __tablename__ = 'tradelists'
+    id = Column(Integer, primary_key=True)
+    card_eng_name = Column(String)
+    card_rus_name = Column(String)
+    card_price = Column(String)
+    tg_id = Column(Integer, ForeignKey('users.tg_id'))
+    user = relationship('User', back_populates='tradelist')
