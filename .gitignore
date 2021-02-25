@@ -3,3 +3,6 @@ tgbotenv
 scg_price/scg_price/spiders/__pycache__
 scg_price/scg_price/__pycache__
 scg_price/logs
+DataBase/__pycache__
+DataBase/ScryfallDataBase.db
+tg_bot/__pycache__
