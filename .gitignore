@@ -9,3 +9,4 @@ DataBase/__pycache__
 DataBase/ScryfallDataBase.db
 tg_bot/__pycache__
 tests/__pycache__
+*.html
