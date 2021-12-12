@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+  tg_bot:
+    build: tg_bot/
+    network_mode: host
+    secrets:
+      - TG_API_KEY
+    depends_on:
+      - parser
+    command: python3 bot.py
+  
+  parser:
+    build: scg_price/
+    command: scrapyrt
+    ports:
+      - 9080:9080
+
+secrets:
+  TG_API_KEY:
+    file: ./secret.txt

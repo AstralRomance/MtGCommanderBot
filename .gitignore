@@ -6,3 +6,9 @@ scg_price/logs
 DataBase/__pycache__
 DataBase/ScryfallDataBase.db
 tg_bot/__pycache__
+bot_env/*
+testenv/*
+tests/*
+venv/*
+secret.txt
+ScryfallDb/*
